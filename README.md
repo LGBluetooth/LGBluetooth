@@ -105,5 +105,5 @@ Handling such cases makes messy code, and raises hundred of bugs.
 Don't worry, now you can forgot about that hell - LGBluetooth uses blocks for callbacks, you can start using modern code and hierarchical calls.
 
 <h2>LICENSE</h2>
-LGBluetooth is under MIT License (see LICENSEE file)
+LGBluetooth is under MIT License (see LICENSE file)
 
