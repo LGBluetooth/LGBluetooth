@@ -102,7 +102,7 @@ After that call "discover services", wait peripheral delegate callback, "discove
 What will happen if your program will make 2 connections at once?
 Handling such cases makes messy code, and raises hundred of bugs.
 
-Don't worry, LGBluetooth uses blocks for callbacks, you can start using modern code and hierarchical calls.
+Don't worry, now you can forgot about that hell - LGBluetooth uses blocks for callbacks, you can start using modern code and hierarchical calls.
 
 <h2>LICENSE</h2>
 LGBluetooth is under MIT License (see LICENSEE file)
