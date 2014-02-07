@@ -32,8 +32,8 @@
 #define LGLog(...) DDLogInfo(__VA_ARGS__)
 #define LGLogError(...) DDLogError(__VA_ARGS__)
 #else
-#define LGLog(...) NSLog(@"%s(%p) %@", __PRETTY_FUNCTION__, self, [NSString stringWithFormat:__VA_ARGS__])
-#define LGLogError(...) NSLog(@"%s(%p) %@", __PRETTY_FUNCTION__, self, [NSString stringWithFormat:__VA_ARGS__])
+#define LGLog(...) NSLog(__VA_ARGS__)
+#define LGLogError(...) NSLog(__VA_ARGS__)
 #endif
 #else
 #define LGLog(...) ((void)0)
