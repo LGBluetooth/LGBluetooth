@@ -16,9 +16,9 @@ Simple, block-based, lightweight library over CoreBluetooth.
 For example we have a peripheral which has "5ec0" service, with 3 characteristics
 <img src="https://raw2.github.com/DavidSahakyan/LGBluetooth/master/Screenshots/1.PNG" width="320" height="480"><br>
 
-"cef9" characteristic is writable
-"f045" characteristic is readable
-"8fdb" characteristic is readable
+* "cef9" characteristic is writable
+* "f045" characteristic is readable
+* "8fdb" characteristic is readable
 
 <pre>
 - (IBAction)testPressed:(UIButton *)sender
