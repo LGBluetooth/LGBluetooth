@@ -78,13 +78,13 @@ Here is the log from console
 Connection with error - (null)
 Service discovered - Battery
 Service discovered - Current Time
-Service discovered - Unknown (<5ec0>)
-Characteristic discovered - Unknown (<cef9>)
-Characteristic discovered - Unknown (<f045>)
-Characteristic discovered - Unknown (<8fdb>)
-Characteristic - Unknown (<cef9>) wrote with error - (null)
-Characteristic - Unknown (<f045>) value - 1234567890 error - 
-Characteristic - Unknown (<8fdb>) value - 11111111111 error - (null)
+Service discovered - Unknown (5ec0)
+Characteristic discovered - Unknown (cef9)
+Characteristic discovered - Unknown (f045)
+Characteristic discovered - Unknown (8fdb)
+Characteristic - Unknown (cef9) wrote with error - (null)
+Characteristic - Unknown (f045) value - 1234567890 error - 
+Characteristic - Unknown (8fdb) value - 11111111111 error - (null)
 Disconnect with error - (null)
 </pre>
 
