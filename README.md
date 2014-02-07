@@ -3,7 +3,7 @@ LGBluetooth
 
 Simple, block-based, lightweight library over CoreBluetooth.
 
-Steps to start using
+<h2>Steps to start using</h2>
 
 1. Drag and Drop it into your project
 
@@ -11,7 +11,7 @@ Steps to start using
 
 3. You are ready to go!
 
-Usage - 
+<h2>Usage - </h2>
 
 For example we have a peripheral which has "5ec0" service, with 3 characteristics
 <img src="https://raw2.github.com/DavidSahakyan/LGBluetooth/master/Screenshots/1.PNG" width="320" height="480"><br>
@@ -73,5 +73,6 @@ After which I am passing first peripheral to test method.
 Test method connects to peripheral, discoveres services, discoveres characteristics of "5ec0" service.
 Aftter which reads "f045", "8fdb", and writes 0xFF to "cef9" and disconnects from peripheral.
 
-
+<h2>LICENSE</h2>
+LGBluetooth is under MIT License (see LICENSEE file)
 
