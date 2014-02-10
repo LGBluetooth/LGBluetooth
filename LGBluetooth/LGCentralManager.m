@@ -52,6 +52,20 @@
 @implementation LGCentralManager
 
 /*----------------------------------------------------*/
+#pragma mark - Getter/Setter -
+/*----------------------------------------------------*/
+
+- (BOOL)isCentralReady
+{
+    return (self.manager.state == CBCentralManagerStatePoweredOn);
+}
+
+- (NSString *)centralNotReadyReason
+{
+    return [self stateMessage];
+}
+
+/*----------------------------------------------------*/
 #pragma mark - Public Methods -
 /*----------------------------------------------------*/
 
@@ -138,12 +152,13 @@
 		case CBCentralManagerStateUnauthorized:
 			message = @"The app is not authorized to use Bluetooth Low Energy.";
 			break;
+        case CBCentralManagerStateUnknown:
+            message = @"Central not initialized yet."
+            break;
 		case CBCentralManagerStatePoweredOff:
 			message = @"Bluetooth is currently powered off.";
 			break;
 		case CBCentralManagerStatePoweredOn:
-            break;
-		case CBCentralManagerStateUnknown:
             break;
 		default:
 			break;
@@ -152,11 +167,6 @@
         LGLogError(@"%@", message);
     }
 	return message;
-}
-
-- (void)scanIntervalReached
-{
-    
 }
 
 - (LGPeripheral *)wrapperByPeripheral:(CBPeripheral *)aPeripheral

@@ -38,9 +38,19 @@ typedef void (^LGCentralManagerDiscoverPeripheralsCallback) (NSArray *peripheral
 @property (nonatomic, getter = isScanning) BOOL scanning;
 
 /**
+ * Indicates if central manager is ready for core bluetooth tasks
+ */
+@property (assign, nonatomic, readonly, getter = isCentralReady) BOOL centralReady;
+
+/**
+ * Human readable property that indicates why central manager is not ready
+ */
+@property (weak, nonatomic, readonly) NSString *centralNotReadyReason;
+
+/**
  * Peripherals that are nearby
  */
-@property (weak, readonly, nonatomic) NSArray *peripherals;
+@property (weak, nonatomic, readonly) NSArray *peripherals;
 
 /**
  * Core bluetooth's Central manager, for implementing central role
