@@ -264,7 +264,7 @@ static LGCentralManager *sharedInstance = nil;
 {
 	self = [super init];
 	if (self) {
-        _centralQueue = dispatch_queue_create("com.pavlok.centralQueue", DISPATCH_QUEUE_SERIAL);
+        _centralQueue = dispatch_queue_create("com.LGBluetooth.LGCentralQueue", DISPATCH_QUEUE_SERIAL);
         _manager      = [[CBCentralManager alloc] initWithDelegate:self queue:self.centralQueue];
         _scannedPeripherals = [NSMutableArray new];
 	}
