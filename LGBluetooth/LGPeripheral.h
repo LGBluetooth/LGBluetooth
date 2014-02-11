@@ -50,6 +50,11 @@ typedef void(^LGPeripheralRSSIValueCallback)(NSNumber *RSSI, NSError *error);
 @property (assign, nonatomic) NSInteger RSSI;
 
 /**
+ * The advertisement data that was tracked from peripheral
+ */
+@property (strong, nonatomic) NSDictionary *advertisingData;
+
+/**
  * Opens connection WITHOUT timeout to this peripheral
  * @param aCallback Will be called after successfull/failure connection
  */

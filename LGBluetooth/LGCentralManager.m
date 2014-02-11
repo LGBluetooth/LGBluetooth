@@ -237,6 +237,7 @@
             // Calculating AVG RSSI
             lgPeripheral.RSSI = (lgPeripheral.RSSI + [RSSI integerValue]) / 2;
         }
+        lgPeripheral.advertisingData = advertisementData;
     });
 }
 
