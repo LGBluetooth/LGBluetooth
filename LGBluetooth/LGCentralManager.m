@@ -135,12 +135,12 @@
 
 - (NSArray *)retrievePeripheralsWithIdentifiers:(NSArray *)identifiers
 {
-    return [self.manager retrievePeripheralsWithIdentifiers:identifiers];
+    return [self wrappersByPeripherals:[self.manager retrievePeripheralsWithIdentifiers:identifiers]];
 }
 
 - (NSArray *)retrieveConnectedPeripheralsWithServices:(NSArray *)serviceUUIDS
 {
-    return [self.manager retrieveConnectedPeripheralsWithServices:serviceUUIDS];
+    return [self wrappersByPeripherals:[self.manager retrieveConnectedPeripheralsWithServices:serviceUUIDS]];
 }
 
 /*----------------------------------------------------*/
@@ -188,6 +188,16 @@
         [self.scannedPeripherals addObject:wrapper];
     }
     return wrapper;
+}
+
+- (NSArray *)wrappersByPeripherals:(NSArray *)peripherals
+{
+    NSMutableArray *lgPeripherals = [NSMutableArray new];
+    
+    for (CBPeripheral *peripheral in peripherals) {
+        [lgPeripherals addObject:[self wrapperByPeripheral:peripheral]];
+    }
+    return lgPeripherals;
 }
 
 //-------------------------------------------------------------------------//
@@ -238,15 +248,6 @@
             lgPeripheral.RSSI = (lgPeripheral.RSSI + [RSSI integerValue]) / 2;
         }
         lgPeripheral.advertisingData = advertisementData;
-    });
-}
-
-- (void)centralManager:(CBCentralManager *)central didRetrieveConnectedPeripherals:(NSArray *)peripherals
-{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        for (CBPeripheral *peripheral in peripherals) {
-            NSLog(@"%@", peripheral);
-        }
     });
 }
 

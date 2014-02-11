@@ -110,7 +110,7 @@ typedef void (^LGCentralManagerDiscoverPeripheralsCallback) (NSArray *peripheral
 /**
  * Returns a list of known peripherals by their identifiers.
  * @param identifiers A list of peripheral identifiers (represented by NSUUID objects) 
- * from which CBPeripheral objects can be retrieved.
+ * from which LGperipheral objects can be retrieved.
  * @return A list of peripherals that the central manager is able to match to the provided identifiers.
  */
 - (NSArray *)retrievePeripheralsWithIdentifiers:(NSArray *)identifiers;
@@ -120,7 +120,7 @@ typedef void (^LGCentralManagerDiscoverPeripheralsCallback) (NSArray *peripheral
  * The list of connected peripherals can include those that are connected by other apps 
  * and that will need to be connected locally using the connectPeripheral:options: method before they can be used.
  * @param serviceUUIDs A list of service UUIDs (represented by CBUUID objects).
- * @return A list of the peripherals that are currently connected to
+ * @return A list of the LGPeripherals that are currently connected to
  * the system and that contain any of the services specified in the serviceUUID parameter.
  */
 - (NSArray *)retrieveConnectedPeripheralsWithServices:(NSArray *)serviceUUIDS;
