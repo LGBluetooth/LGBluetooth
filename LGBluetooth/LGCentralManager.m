@@ -230,7 +230,13 @@
                   RSSI:(NSNumber *)RSSI
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [[self wrapperByPeripheral:peripheral] setRSSI:[RSSI integerValue]];
+        LGPeripheral *lgPeripheral = [self wrapperByPeripheral:peripheral];
+        if (!lgPeripheral.RSSI) {
+            lgPeripheral.RSSI = [RSSI integerValue];
+        } else {
+            // Calculating AVG RSSI
+            lgPeripheral.RSSI = (lgPeripheral.RSSI + [RSSI integerValue]) / 2;
+        }
     });
 }
 
