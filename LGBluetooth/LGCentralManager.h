@@ -48,7 +48,7 @@ typedef void (^LGCentralManagerDiscoverPeripheralsCallback) (NSArray *peripheral
 @property (weak, nonatomic, readonly) NSString *centralNotReadyReason;
 
 /**
- * Peripherals that are nearby
+ * Peripherals that are nearby (sorted descending by RSSI values)
  */
 @property (weak, nonatomic, readonly) NSArray *peripherals;
 

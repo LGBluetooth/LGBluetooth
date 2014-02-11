@@ -65,6 +65,16 @@
     return [self stateMessage];
 }
 
+- (NSArray *)peripherals
+{
+    // Sorting LGPeripherals by RSSI values
+    NSArray *sortedArray;
+    sortedArray = [_scannedPeripherals sortedArrayUsingComparator:^NSComparisonResult(LGPeripheral *a, LGPeripheral *b) {
+        return a.RSSI < b.RSSI;
+    }];
+    return sortedArray;
+}
+
 /*----------------------------------------------------*/
 #pragma mark - Public Methods -
 /*----------------------------------------------------*/
@@ -131,11 +141,6 @@
 - (NSArray *)retrieveConnectedPeripheralsWithServices:(NSArray *)serviceUUIDS
 {
     return [self.manager retrieveConnectedPeripheralsWithServices:serviceUUIDS];
-}
-
-- (NSArray *)peripherals
-{
-    return [_scannedPeripherals copy];
 }
 
 /*----------------------------------------------------*/
