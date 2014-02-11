@@ -153,7 +153,7 @@
 			message = @"The app is not authorized to use Bluetooth Low Energy.";
 			break;
         case CBCentralManagerStateUnknown:
-            message = @"Central not initialized yet."
+            message = @"Central not initialized yet.";
             break;
 		case CBCentralManagerStatePoweredOff:
 			message = @"Bluetooth is currently powered off.";
