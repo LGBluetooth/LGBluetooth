@@ -9,7 +9,9 @@ Simple, block-based, lightweight library over CoreBluetooth.
 
 2. Import "LGBluetooth.h"
 
-3. You are ready to go!
+3. Star it on github! (It really makes sense)
+
+4. You are ready to go!
 
 <h2>Usage</h2>
 
