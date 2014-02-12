@@ -106,6 +106,17 @@ Handling such cases makes messy code, and raises hundred of bugs.
 
 Don't worry, now you can forgot about that hell - LGBluetooth uses blocks for callbacks, you can start using modern code and hierarchical calls.
 
+
+### Installation with CocoaPods
+
+[CocoaPods](http://cocoapods.org) is a dependency manager for Objective-C, which automates and simplifies the process of using 3rd-party libraries installation in your projects.
+
+#### Podfile
+
+```ruby
+pod "LGBluetooth", "~> 1.0.2"
+```
+
 <h2>LICENSE</h2>
 LGBluetooth is under MIT License (see LICENSE file)
 
