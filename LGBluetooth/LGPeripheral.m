@@ -99,7 +99,7 @@ NSString * const kConnectionMissingErrorMessage = @"BLE Device is not connected"
     self.discoverServicesBlock = aCallback;
     if (self.isConnected) {
         [self.cbPeripheral discoverServices:serviceUUIDs];
-    } else {
+    } else if (self.discoverServicesBlock) {
         self.discoverServicesBlock(nil, [self connectionErrorWithCode:kConnectionMissingErrorCode
                                                        message:kConnectionMissingErrorMessage]);
         self.discoverServicesBlock = nil;
