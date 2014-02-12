@@ -3,7 +3,7 @@ Pod::Spec.new do |s|
   s.version      = "1.0.2"
   s.summary      = "Simple, block-based, lightweight library over CoreBluetooth."
   s.platform     = :ios, '7.0'
-  s.source       = { :git => "https://github.com/DavidSahakyan/LGBluetooth.git", :tag => "Version 1.0.2" }
+  s.source       = { :git => "https://github.com/DavidSahakyan/LGBluetooth.git", :tag => "v1.0.2" }
   s.description  = <<-DESC
                      As we know CoreBluetooth is very hard to use - The methods of objects in Core bluetooth are messy
 
