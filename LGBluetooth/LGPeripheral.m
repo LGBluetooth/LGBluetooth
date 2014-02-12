@@ -101,7 +101,7 @@ NSString * const kConnectionMissingErrorMessage = @"BLE Device is not connected"
         [self.cbPeripheral discoverServices:serviceUUIDs];
     } else if (self.discoverServicesBlock) {
         self.discoverServicesBlock(nil, [self connectionErrorWithCode:kConnectionMissingErrorCode
-                                                       message:kConnectionMissingErrorMessage]);
+                                                              message:kConnectionMissingErrorMessage]);
         self.discoverServicesBlock = nil;
     }
 }
@@ -137,7 +137,7 @@ NSString * const kConnectionMissingErrorMessage = @"BLE Device is not connected"
 
 - (void)handleDisconnectWithError:(NSError *)anError
 {
-    LGLog(@"Disconnect with error - %@", anError);    
+    LGLog(@"Disconnect with error - %@", anError);
     if (self.disconnectBlock) {
         self.disconnectBlock(anError);
     }
@@ -201,54 +201,66 @@ NSString * const kConnectionMissingErrorMessage = @"BLE Device is not connected"
 
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error
 {
-    [self updateServiceWrappers];
-    for (LGService *aService in self.services) {
-        LGLog(@"Service discovered - %@", aService.cbService.UUID);
-    }
-
-    if (self.discoverServicesBlock) {
-        self.discoverServicesBlock(self.services, error);
-    }
-    self.discoverServicesBlock = nil;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self updateServiceWrappers];
+        for (LGService *aService in self.services) {
+            LGLog(@"Service discovered - %@", aService.cbService.UUID);
+        }
+        
+        if (self.discoverServicesBlock) {
+            self.discoverServicesBlock(self.services, error);
+        }
+        self.discoverServicesBlock = nil;
+    });
 }
 
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service
              error:(NSError *)error
 {
-    [[self wrapperByService:service] handleDiscoveredCharacteristics:service.characteristics
-                                                               error:error];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[self wrapperByService:service] handleDiscoveredCharacteristics:service.characteristics
+                                                                   error:error];
+    });
 }
 
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic
              error:(NSError *)error
 {
-    [[[self wrapperByService:characteristic.service]
-      wrapperByCharacteristic:characteristic]
-     handleReadValue:characteristic.value error:error];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[[self wrapperByService:characteristic.service]
+          wrapperByCharacteristic:characteristic]
+         handleReadValue:characteristic.value error:error];
+    });
 }
 
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateNotificationStateForCharacteristic:(CBCharacteristic *)characteristic
              error:(NSError *)error
 {
-    [[[self wrapperByService:characteristic.service]
-      wrapperByCharacteristic:characteristic]
-     handleSetNotifiedWithError:error];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[[self wrapperByService:characteristic.service]
+          wrapperByCharacteristic:characteristic]
+         handleSetNotifiedWithError:error];
+    });
 }
 
 - (void)peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(CBCharacteristic *)characteristic
              error:(NSError *)error
 {
-    [[[self wrapperByService:characteristic.service]
-      wrapperByCharacteristic:characteristic]
-     handleWrittenValueWithError:error];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[[self wrapperByService:characteristic.service]
+          wrapperByCharacteristic:characteristic]
+         handleWrittenValueWithError:error];
+    });
 }
 
 - (void)peripheralDidUpdateRSSI:(CBPeripheral *)peripheral error:(NSError *)error
 {
-    if (self.rssiValueBlock) {
-        self.rssiValueBlock(peripheral.RSSI, error);
-    }
-    self.rssiValueBlock = nil;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (self.rssiValueBlock) {
+            self.rssiValueBlock(peripheral.RSSI, error);
+        }
+        self.rssiValueBlock = nil;
+    });
 }
 
 /*----------------------------------------------------*/
