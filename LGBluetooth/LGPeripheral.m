@@ -25,6 +25,8 @@
 #import "LGCentralManager.h"
 #import "LGUtils.h"
 
+NSString * const kLGPeripheralDidDisconnect = @"LGPeripheralDidDisconnect";
+
 // Error Domains
 NSString * const kLGPeripheralConnectionErrorDomain = @"LGPeripheralConnectionErrorDomain";
 
@@ -140,6 +142,10 @@ NSString * const kConnectionMissingErrorMessage = @"BLE Device is not connected"
     LGLog(@"Disconnect with error - %@", anError);
     if (self.disconnectBlock) {
         self.disconnectBlock(anError);
+    } else {
+        [[NSNotificationCenter defaultCenter] postNotificationName:kLGPeripheralDidDisconnect
+                                                            object:self
+                                                          userInfo:@{@"error" : anError}];
     }
     self.disconnectBlock = nil;
 }

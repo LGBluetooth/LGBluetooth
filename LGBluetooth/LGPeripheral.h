@@ -21,6 +21,16 @@
 
 @class CBPeripheral;
 
+/**
+ * NSNotification which will be triggered by this identifier when
+ * a connected peripheral will be disconnected from us.
+ * NOTE : Notification will be posted only if there is no an active handler (disconnect completion)
+ *
+ * e.g. after calling disconnectWithCompletion: and giving complition
+ * will NOT post `kLGPeripheralDidDisconnect` notification
+ */
+extern NSString * const kLGPeripheralDidDisconnect;
+
 typedef void(^LGPeripheralConnectionCallback)(NSError *error);
 typedef void(^LGPeripheralDiscoverServicesCallback)(NSArray *services, NSError *error);
 typedef void(^LGPeripheralRSSIValueCallback)(NSNumber *RSSI, NSError *error);
