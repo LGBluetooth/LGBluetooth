@@ -34,9 +34,6 @@ NSString * const kLGPeripheralConnectionErrorDomain = @"LGPeripheralConnectionEr
 const NSInteger kConnectionTimeoutErrorCode = 408;
 const NSInteger kConnectionMissingErrorCode = 409;
 
-// Error Messages
-NSString * const kErrorMessageKey = @"msg";
-
 NSString * const kConnectionTimeoutErrorMessage = @"BLE Device can't be connected by given interval";
 NSString * const kConnectionMissingErrorMessage = @"BLE Device is not connected";
 
@@ -158,7 +155,7 @@ NSString * const kConnectionMissingErrorMessage = @"BLE Device is not connected"
 {
     return [NSError errorWithDomain:kLGPeripheralConnectionErrorDomain
                                code:aCode
-                           userInfo:@{kErrorMessageKey : aMsg}];
+                           userInfo:@{kLGErrorMessageKey : aMsg}];
 }
 
 /*----------------------------------------------------*/

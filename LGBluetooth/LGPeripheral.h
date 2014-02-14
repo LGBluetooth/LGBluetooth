@@ -21,6 +21,8 @@
 
 @class CBPeripheral;
 
+#pragma mark - Notification identifiers -
+
 /**
  * NSNotification which will be triggered by this identifier when
  * a connected peripheral will be disconnected from us.
@@ -31,11 +33,48 @@
  */
 extern NSString * const kLGPeripheralDidDisconnect;
 
+#pragma mark - Error Domains -
+
+/**
+ * Error domains for Connection errors
+ */
+extern NSString * const kLGPeripheralConnectionErrorDomain;
+
+#pragma mark - Error Codes -
+/**
+ * Connection timeout error code
+ */
+extern const NSInteger kConnectionTimeoutErrorCode;
+
+/**
+ * Connection missing error code
+ */
+extern const NSInteger kConnectionMissingErrorCode;
+
+#pragma mark - Error Messages -
+
+/**
+ * Error message for connection timeouts
+ */
+extern NSString * const kConnectionTimeoutErrorMessage;
+
+/**
+ * Error message for missing connections
+ */
+extern NSString * const kConnectionMissingErrorMessage;
+
+
+#pragma mark - Callback types -
+
 typedef void(^LGPeripheralConnectionCallback)(NSError *error);
 typedef void(^LGPeripheralDiscoverServicesCallback)(NSArray *services, NSError *error);
 typedef void(^LGPeripheralRSSIValueCallback)(NSNumber *RSSI, NSError *error);
 
+#pragma mark - Public Interface -
+
 @interface LGPeripheral : NSObject
+
+#pragma mark - Public Properties -
 
 /**
  * Core Bluetooth's CBPeripheral instance
@@ -63,6 +102,8 @@ typedef void(^LGPeripheralRSSIValueCallback)(NSNumber *RSSI, NSError *error);
  * The advertisement data that was tracked from peripheral
  */
 @property (strong, nonatomic) NSDictionary *advertisingData;
+
+#pragma mark - Public Methods -
 
 /**
  * Opens connection WITHOUT timeout to this peripheral
@@ -106,6 +147,7 @@ typedef void(^LGPeripheralRSSIValueCallback)(NSNumber *RSSI, NSError *error);
  */
 - (void)readRSSIValueCompletion:(LGPeripheralRSSIValueCallback)aCallback;
 
+#pragma mark - Private Handlers -
 
 // ----- Used for input events -----/
 
@@ -113,7 +155,7 @@ typedef void(^LGPeripheralRSSIValueCallback)(NSNumber *RSSI, NSError *error);
 
 - (void)handleDisconnectWithError:(NSError *)anError;
 
-
+#pragma mark - Private Initializer -
 /**
  * @return Wrapper object over Core Bluetooth's CBPeripheral
  */
