@@ -40,6 +40,62 @@
 #define LGLogError(...) ((void)0)
 #endif
 
+#import "LGCharacteristic.h"
+
+#pragma mark - Error Domains -
+
+/**
+ * Error domain for Write errors
+ */
+extern NSString * const kLGUtilsWriteErrorDomain;
+
+/**
+ * Global error Message key
+ */
+extern NSString * const kLGErrorMessageKey;
+
+#pragma mark - Error Codes -
+
+/**
+ * Error code for write operation
+ * Service was not found on peripheral
+ */
+extern const NSInteger kLGUtilsMissingServiceErrorCode;
+
+/**
+ * Error code for write operation
+ * Characteristic was not found on peripheral
+ */
+extern const NSInteger kLGUtilsMissingCharacteristicErrorCode;
+
+#pragma mark - Error Messages -
+
+/**
+ * Error message for write operation
+ * Service was not found on peripheral
+ */
+extern NSString * const kLGUtilsMissingServiceErrorMessage;
+
+/**
+ * Error message for write operation
+ * Characteristic was not found on peripheral
+ */
+extern NSString * const kLGUtilsMissingCharacteristicErrorMessage;
+
+@class LGPeripheral;
+
 @interface LGUtils : NSObject
 
+#pragma mark - Public Methods -
+
++ (void)writeData:(NSData *)aData
+      charactUUID:(NSString *)aCharacteristic
+       seriveUUID:(NSString *)aService
+       peripheral:(LGPeripheral *)aPeripheral
+       completion:(LGCharacteristicWriteCallback)aCallback;
+
++ (void)readDataFromCharactUUID:(NSString *)aCharacteristic
+                     seriveUUID:(NSString *)aService
+                     peripheral:(LGPeripheral *)aPeripheral
+                     completion:(LGCharacteristicReadCallback)aCallback;
 @end
