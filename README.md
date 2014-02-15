@@ -35,13 +35,18 @@ For example we have a peripheral which has "5ec0" service, with 3 characteristic
 }
 
 - (void)testPeripheral:(LGPeripheral *)peripheral
-{
+{   
+    // First of all, opening connection
     [peripheral connectWithCompletion:^(NSError *error) {
+        // Discovering services of peripheral
         [peripheral discoverServicesWithCompletion:^(NSArray *services, NSError *error) {
+            // Searching in all services, our - 5ec0 service
             for (LGService *service in services) {
                 if ([service.UUIDString isEqualToString:@"5ec0"]) {
+                    // Discovering characteristics of 5ec0 service
                     [service discoverCharacteristicsWithCompletion:^(NSArray *characteristics, NSError *error) {
                         __block int i = 0;
+                        // Searching writable characteristic - cef9
                         for (LGCharacteristic *charact in characteristics) {
                             if ([charact.UUIDString isEqualToString:@"cef9"]) {
                                 [charact writeByte:0xFF completion:^(NSError *error) {
@@ -50,6 +55,7 @@ For example we have a peripheral which has "5ec0" service, with 3 characteristic
                                     }
                                 }];
                             } else {
+                                // Otherwise reading value
                                 [charact readValueWithBlock:^(NSData *data, NSError *error) {
                                     if (++i == 3) {
                                         [peripheral disconnectWithCompletion:nil];
@@ -88,6 +94,34 @@ Characteristic - Unknown (cef9) wrote with error - (null)
 Characteristic - Unknown (f045) value - 1234567890 error - 
 Characteristic - Unknown (8fdb) value - 11111111111 error - (null)
 Disconnect with error - (null)
+</pre>
+
+<h2>Alternative use</h2>
+
+You can make basic read/write via LGUtils class.
+Note : This methods do NOT need active connection to peripheral,
+they will open a connection if it doesn't exists.
+
+Read example
+<pre>
+        [LGUtils readDataFromCharactUUID:@"f045"
+                              seriveUUID:@"5ec0"
+                              peripheral:peripheral
+                              completion:^(NSData *data, NSError *error) {
+                                  NSLog(@"Data : %s Error : %@", (char *)[data bytes], error);
+                              }];
+</pre>
+
+Write example
+<pre>
+        int8_t dataToWrite = 0xFF;
+        [LGUtils writeData:[NSData dataWithBytes:&dataToWrite length:sizeof(dataToWrite)]
+               charactUUID:@"cef9"
+                seriveUUID:@"5ec0"
+                peripheral:peripheral completion:^(NSError *error) {
+                    NSLog(@"Error : %@", error);
+                }];
+
 </pre>
 
 <h2>Reasons of using LGBluetooth</h2>
