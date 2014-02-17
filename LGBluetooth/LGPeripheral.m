@@ -142,7 +142,7 @@ NSString * const kConnectionMissingErrorMessage = @"BLE Device is not connected"
     } else {
         [[NSNotificationCenter defaultCenter] postNotificationName:kLGPeripheralDidDisconnect
                                                             object:self
-                                                          userInfo:@{@"error" : anError}];
+                                                          userInfo:@{@"error" : anError ? : [NSNull null]}];
     }
     self.disconnectBlock = nil;
 }
