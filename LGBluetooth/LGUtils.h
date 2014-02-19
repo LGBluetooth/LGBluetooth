@@ -88,12 +88,29 @@ extern NSString * const kLGUtilsMissingCharacteristicErrorMessage;
 
 #pragma mark - Public Methods -
 
+/**
+ * Bacis method for writing value in a characteristic
+ * Opens connection to peripheral if it's missing, and writtes data
+ * @param aData NSData object that represents data which needs to be transfered
+ * @param aCharacteristic NSString representation of Characteristic UUID (in which data will be written)
+ * @param aService NSString representation of Service UUID (which contains aCharacteristic)
+ * @param aPeripheral LGPeripheral instance (which contains aService)
+ * @param aCallabck will be invoked after successfull/failure operation
+ */
 + (void)writeData:(NSData *)aData
       charactUUID:(NSString *)aCharacteristic
        seriveUUID:(NSString *)aService
        peripheral:(LGPeripheral *)aPeripheral
        completion:(LGCharacteristicWriteCallback)aCallback;
 
+/**
+ * Bacis method for reading value from a characteristic
+ * Opens connection to peripheral if it's missing, and reads data
+ * @param aCharacteristic NSString representation of Characteristic UUID (from where data will be read)
+ * @param aService NSString representation of Service UUID (which contains aCharacteristic)
+ * @param aPeripheral LGPeripheral instance (which contains aService)
+ * @param aCallabck will be invoked after successfull/failure operation
+ */
 + (void)readDataFromCharactUUID:(NSString *)aCharacteristic
                      seriveUUID:(NSString *)aService
                      peripheral:(LGPeripheral *)aPeripheral

@@ -118,11 +118,13 @@ NSString * const kLGUtilsMissingCharacteristicErrorMessage = @"Provided characte
        completion:(LGCharacteristicWriteCallback)aCallback;
 {
     [aPeripheral discoverServices:@[[CBUUID UUIDWithString:aService]] completion:^(NSArray *services, NSError *error) {
-        if (services.count && !error) {
-            LGService *service = services[0];
-            [service discoverCharacteristicsWithUUIDs:@[[CBUUID UUIDWithString:aCharacteristic]] completion:^(NSArray *characteristics, NSError *error) {
-                if (characteristics.count) {
-                    LGCharacteristic *characteristic = characteristics[0];
+        LGService *service = nil;
+        if (services.count && !error && (service = [self findServiceInList:services byUUID:aService])) {
+            [service discoverCharacteristicsWithUUIDs:@[[CBUUID UUIDWithString:aCharacteristic]]
+                                           completion:^(NSArray *characteristics, NSError *error)
+            {
+                LGCharacteristic *characteristic = nil;
+                if (characteristics.count && (characteristic = [self findCharacteristicInList:characteristics byUUID:aCharacteristic])) {
                     [characteristic writeValue:aData completion:aCallback];
                 } else {
                     if (aCallback) {
@@ -133,6 +135,7 @@ NSString * const kLGUtilsMissingCharacteristicErrorMessage = @"Provided characte
                             aCallback(error);
                         }
                     }
+                    LGLogError(@"Missing provided characteristic : %@ in service : %@", aCharacteristic, aService);
                 }
             }];
         } else {
@@ -144,6 +147,7 @@ NSString * const kLGUtilsMissingCharacteristicErrorMessage = @"Provided characte
                     aCallback(error);
                 }
             }
+            LGLogError(@"Missing provided service : %@ in peripheral", aService);
         }
     }];
 }
@@ -155,10 +159,12 @@ NSString * const kLGUtilsMissingCharacteristicErrorMessage = @"Provided characte
 {
     [aPeripheral discoverServices:@[[CBUUID UUIDWithString:aService]] completion:^(NSArray *services, NSError *error) {
         if (services.count && !error) {
-            LGService *service = services[0];
+            LGService *service = [self findServiceInList:services
+                                                  byUUID:aService];
             [service discoverCharacteristicsWithUUIDs:@[[CBUUID UUIDWithString:aCharacteristic]] completion:^(NSArray *characteristics, NSError *error) {
                 if (characteristics.count) {
-                    LGCharacteristic *characteristic = characteristics[0];
+                    LGCharacteristic *characteristic = [self findCharacteristicInList:characteristics
+                                                                               byUUID:aCharacteristic];
                     [characteristic readValueWithBlock:aCallback];
                 } else {
                     if (aCallback) {
@@ -182,6 +188,36 @@ NSString * const kLGUtilsMissingCharacteristicErrorMessage = @"Provided characte
             }
         }
     }];
+}
+
+/**
+ * Find characteristic in characteristic list by providied UUID string
+ * @return Found characteristic, nil if no one found
+ */
++ (LGCharacteristic *)findCharacteristicInList:(NSArray *)characteristics
+                                        byUUID:(NSString *)anID
+{
+    for (LGCharacteristic *characteristic in characteristics) {
+        if ([[characteristic.UUIDString lowercaseString] isEqualToString:[anID lowercaseString]]) {
+            return characteristic;
+        }
+    }
+    return nil;
+}
+
+/**
+ * Find service in services list by providied UUID string
+ * @return Found service, nil if no one found
+ */
++ (LGService *)findServiceInList:(NSArray *)services
+                                 byUUID:(NSString *)anID
+{
+    for (LGService *service in services) {
+        if ([[service.UUIDString lowercaseString] isEqualToString:[anID lowercaseString]]) {
+            return service;
+        }
+    }
+    return nil;
 }
 
 /*----------------------------------------------------*/
