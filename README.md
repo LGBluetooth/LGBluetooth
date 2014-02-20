@@ -77,7 +77,7 @@ In this example I'm scanning peripherals for 4 seconds.
 After which I am passing first peripheral to test method.
 
 Test method connects to peripheral, discoveres services, discoveres characteristics of "5ec0" service.
-Aftter which reads "f045", "8fdb", and writes 0xFF to "cef9" and disconnects from peripheral.
+After which reads "f045", "8fdb", and writes 0xFF to "cef9" and disconnects from peripheral.
 
 Here is the log from console 
 <pre>
