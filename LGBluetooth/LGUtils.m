@@ -66,21 +66,21 @@ NSString * const kLGUtilsMissingCharacteristicErrorMessage = @"Provided characte
 
 + (void)writeData:(NSData *)aData
       charactUUID:(NSString *)aCharacteristic
-       seriveUUID:(NSString *)aService
+       serviceUUID:(NSString *)aService
        peripheral:(LGPeripheral *)aPeripheral
        completion:(LGCharacteristicWriteCallback)aCallback
 {
     if (aPeripheral.cbPeripheral.state == CBPeripheralStateConnected) {
         [self writeData:aData
             charactUUID:aCharacteristic
-             seriveUUID:aService
+            serviceUUID:aService
         readyPeripheral:aPeripheral
              completion:aCallback];
     } else {
         [aPeripheral connectWithTimeout:30 completion:^(NSError *error) {
             [self writeData:aData
                 charactUUID:aCharacteristic
-                 seriveUUID:aService
+                serviceUUID:aService
             readyPeripheral:aPeripheral
                  completion:aCallback];
         }];
@@ -88,19 +88,19 @@ NSString * const kLGUtilsMissingCharacteristicErrorMessage = @"Provided characte
 }
 
 + (void)readDataFromCharactUUID:(NSString *)aCharacteristic
-                     seriveUUID:(NSString *)aService
+                    serviceUUID:(NSString *)aService
                      peripheral:(LGPeripheral *)aPeripheral
                      completion:(LGCharacteristicReadCallback)aCallback
 {
     if (aPeripheral.cbPeripheral.state == CBPeripheralStateConnected) {
         [self readDataFromCharactUUID:aCharacteristic
-                           seriveUUID:aService
+                           serviceUUID:aService
                       readyPeripheral:aPeripheral
                            completion:aCallback];
     } else {
         [aPeripheral connectWithTimeout:30 completion:^(NSError *error) {
             [self readDataFromCharactUUID:aCharacteristic
-                               seriveUUID:aService
+                               serviceUUID:aService
                           readyPeripheral:aPeripheral
                                completion:aCallback];
         }];
@@ -113,7 +113,7 @@ NSString * const kLGUtilsMissingCharacteristicErrorMessage = @"Provided characte
 
 + (void)writeData:(NSData *)aData
       charactUUID:(NSString *)aCharacteristic
-       seriveUUID:(NSString *)aService
+      serviceUUID:(NSString *)aService
   readyPeripheral:(LGPeripheral *)aPeripheral
        completion:(LGCharacteristicWriteCallback)aCallback;
 {
@@ -153,7 +153,7 @@ NSString * const kLGUtilsMissingCharacteristicErrorMessage = @"Provided characte
 }
 
 + (void)readDataFromCharactUUID:(NSString *)aCharacteristic
-                     seriveUUID:(NSString *)aService
+                     serviceUUID:(NSString *)aService
                 readyPeripheral:(LGPeripheral *)aPeripheral
                      completion:(LGCharacteristicReadCallback)aCallback;
 {

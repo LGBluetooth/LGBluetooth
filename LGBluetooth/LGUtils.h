@@ -99,7 +99,7 @@ extern NSString * const kLGUtilsMissingCharacteristicErrorMessage;
  */
 + (void)writeData:(NSData *)aData
       charactUUID:(NSString *)aCharacteristic
-       seriveUUID:(NSString *)aService
+       serviceUUID:(NSString *)aService
        peripheral:(LGPeripheral *)aPeripheral
        completion:(LGCharacteristicWriteCallback)aCallback;
 
@@ -112,7 +112,7 @@ extern NSString * const kLGUtilsMissingCharacteristicErrorMessage;
  * @param aCallabck will be invoked after successfull/failure operation
  */
 + (void)readDataFromCharactUUID:(NSString *)aCharacteristic
-                     seriveUUID:(NSString *)aService
+                    serviceUUID:(NSString *)aService
                      peripheral:(LGPeripheral *)aPeripheral
                      completion:(LGCharacteristicReadCallback)aCallback;
 @end
