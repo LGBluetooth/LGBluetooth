@@ -103,7 +103,7 @@ they will open a connection if it doesn't exists.
 Read example
 <pre>
         [LGUtils readDataFromCharactUUID:@"f045"
-                              seriveUUID:@"5ec0"
+                             serviceUUID:@"5ec0"
                               peripheral:peripheral
                               completion:^(NSData *data, NSError *error) {
                                   NSLog(@"Data : %s Error : %@", (char *)[data bytes], error);
@@ -115,7 +115,7 @@ Write example
         int8_t dataToWrite = 0xFF;
         [LGUtils writeData:[NSData dataWithBytes:&dataToWrite length:sizeof(dataToWrite)]
                charactUUID:@"cef9"
-                seriveUUID:@"5ec0"
+               serviceUUID:@"5ec0"
                 peripheral:peripheral completion:^(NSError *error) {
                     NSLog(@"Error : %@", error);
                 }];
