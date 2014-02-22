@@ -42,6 +42,8 @@
 
 #import "LGCharacteristic.h"
 
+typedef void(^LGUtilsDiscoverCharacterisitcCallback)(LGCharacteristic *characteristic, NSError *error);
+
 #pragma mark - Error Domains -
 
 /**
@@ -115,4 +117,18 @@ extern NSString * const kLGUtilsMissingCharacteristicErrorMessage;
                     serviceUUID:(NSString *)aService
                      peripheral:(LGPeripheral *)aPeripheral
                      completion:(LGCharacteristicReadCallback)aCallback;
+
+/**
+ * Bacis method for discovering a characteristic
+ * Opens connection to peripheral if it's missing, and discoveres characteristic
+ * @param aCharacteristic NSString representation of Characteristic UUID
+ * @param aService NSString representation of Service UUID (which contains aCharacteristic)
+ * @param aPeripheral LGPeripheral instance (which contains aService)
+ * @param aCallabck will be invoked after successfull/failure operation
+ */
++ (void)discoverCharactUUID:(NSString *)aCharacteristic
+                serviceUUID:(NSString *)aService
+                 peripheral:(LGPeripheral *)aPeripheral
+                 completion:(LGUtilsDiscoverCharacterisitcCallback)aCallback;
+
 @end

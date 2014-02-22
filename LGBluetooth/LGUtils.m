@@ -30,6 +30,17 @@
 NSString * const kLGUtilsWriteErrorDomain = @"LGUtilsWriteErrorDomain";
 
 /**
+ * Error domain for Read errors
+ */
+NSString * const kLGUtilsReadErrorDomain = @"LGUtilsReadErrorDomain";
+
+/**
+ * Error domain for Discover errors
+ */
+NSString * const kLGUtilsDiscoverErrorDomain = @"LGUtilsDiscoverErrorDomain";
+
+
+/**
  * Global key for providing errors of LGBluetooth
  */
 NSString * const kLGErrorMessageKey = @"msg";
@@ -58,6 +69,11 @@ NSString * const kLGUtilsMissingServiceErrorMessage = @"Provided service UUID do
  */
 NSString * const kLGUtilsMissingCharacteristicErrorMessage = @"Provided characteristic doesn't exist in provided service";;
 
+/**
+ * Timeout of connection to peripheral
+ */
+const NSInteger kLGUtilsPeripheralConnectionTimeoutInterval = 30;
+
 @implementation LGUtils
 
 /*----------------------------------------------------*/
@@ -66,7 +82,7 @@ NSString * const kLGUtilsMissingCharacteristicErrorMessage = @"Provided characte
 
 + (void)writeData:(NSData *)aData
       charactUUID:(NSString *)aCharacteristic
-       serviceUUID:(NSString *)aService
+      serviceUUID:(NSString *)aService
        peripheral:(LGPeripheral *)aPeripheral
        completion:(LGCharacteristicWriteCallback)aCallback
 {
@@ -77,7 +93,7 @@ NSString * const kLGUtilsMissingCharacteristicErrorMessage = @"Provided characte
         readyPeripheral:aPeripheral
              completion:aCallback];
     } else {
-        [aPeripheral connectWithTimeout:30 completion:^(NSError *error) {
+        [aPeripheral connectWithTimeout:kLGUtilsPeripheralConnectionTimeoutInterval completion:^(NSError *error) {
             [self writeData:aData
                 charactUUID:aCharacteristic
                 serviceUUID:aService
@@ -94,15 +110,35 @@ NSString * const kLGUtilsMissingCharacteristicErrorMessage = @"Provided characte
 {
     if (aPeripheral.cbPeripheral.state == CBPeripheralStateConnected) {
         [self readDataFromCharactUUID:aCharacteristic
-                           serviceUUID:aService
+                          serviceUUID:aService
                       readyPeripheral:aPeripheral
                            completion:aCallback];
     } else {
-        [aPeripheral connectWithTimeout:30 completion:^(NSError *error) {
+        [aPeripheral connectWithTimeout:kLGUtilsPeripheralConnectionTimeoutInterval completion:^(NSError *error) {
             [self readDataFromCharactUUID:aCharacteristic
-                               serviceUUID:aService
+                              serviceUUID:aService
                           readyPeripheral:aPeripheral
                                completion:aCallback];
+        }];
+    }
+}
+
++ (void)discoverCharactUUID:(NSString *)aCharacteristic
+                serviceUUID:(NSString *)aService
+                 peripheral:(LGPeripheral *)aPeripheral
+                 completion:(LGUtilsDiscoverCharacterisitcCallback)aCallback
+{
+    if (aPeripheral.cbPeripheral.state == CBPeripheralStateConnected) {
+        [self discoverCharactUUID:aCharacteristic
+                      serviceUUID:aService
+                  readyPeripheral:aPeripheral
+                       completion:aCallback];
+    } else {
+        [aPeripheral connectWithTimeout:kLGUtilsPeripheralConnectionTimeoutInterval completion:^(NSError *error) {
+            [self discoverCharactUUID:aCharacteristic
+                          serviceUUID:aService
+                      readyPeripheral:aPeripheral
+                           completion:aCallback];
         }];
     }
 }
@@ -122,22 +158,22 @@ NSString * const kLGUtilsMissingCharacteristicErrorMessage = @"Provided characte
         if (services.count && !error && (service = [self findServiceInList:services byUUID:aService])) {
             [service discoverCharacteristicsWithUUIDs:@[[CBUUID UUIDWithString:aCharacteristic]]
                                            completion:^(NSArray *characteristics, NSError *error)
-            {
-                LGCharacteristic *characteristic = nil;
-                if (characteristics.count && (characteristic = [self findCharacteristicInList:characteristics byUUID:aCharacteristic])) {
-                    [characteristic writeValue:aData completion:aCallback];
-                } else {
-                    if (aCallback) {
-                        if (!error) {
-                            aCallback([LGUtils writeErrorWithCode:kLGUtilsMissingCharacteristicErrorCode
-                                                          message:kLGUtilsMissingCharacteristicErrorMessage]);
-                        } else {
-                            aCallback(error);
-                        }
-                    }
-                    LGLogError(@"Missing provided characteristic : %@ in service : %@", aCharacteristic, aService);
-                }
-            }];
+             {
+                 LGCharacteristic *characteristic = nil;
+                 if (characteristics.count && (characteristic = [self findCharacteristicInList:characteristics byUUID:aCharacteristic])) {
+                     [characteristic writeValue:aData completion:aCallback];
+                 } else {
+                     if (aCallback) {
+                         if (!error) {
+                             aCallback([LGUtils writeErrorWithCode:kLGUtilsMissingCharacteristicErrorCode
+                                                           message:kLGUtilsMissingCharacteristicErrorMessage]);
+                         } else {
+                             aCallback(error);
+                         }
+                     }
+                     LGLogError(@"Missing provided characteristic : %@ in service : %@", aCharacteristic, aService);
+                 }
+             }];
         } else {
             if (aCallback) {
                 if (!error) {
@@ -153,7 +189,7 @@ NSString * const kLGUtilsMissingCharacteristicErrorMessage = @"Provided characte
 }
 
 + (void)readDataFromCharactUUID:(NSString *)aCharacteristic
-                     serviceUUID:(NSString *)aService
+                    serviceUUID:(NSString *)aService
                 readyPeripheral:(LGPeripheral *)aPeripheral
                      completion:(LGCharacteristicReadCallback)aCallback;
 {
@@ -169,8 +205,8 @@ NSString * const kLGUtilsMissingCharacteristicErrorMessage = @"Provided characte
                 } else {
                     if (aCallback) {
                         if (!error) {
-                            aCallback(nil, [LGUtils writeErrorWithCode:kLGUtilsMissingCharacteristicErrorCode
-                                                               message:kLGUtilsMissingCharacteristicErrorMessage]);
+                            aCallback(nil, [LGUtils readErrorWithCode:kLGUtilsMissingCharacteristicErrorCode
+                                                              message:kLGUtilsMissingCharacteristicErrorMessage]);
                         } else {
                             aCallback(nil, error);
                         }
@@ -180,12 +216,54 @@ NSString * const kLGUtilsMissingCharacteristicErrorMessage = @"Provided characte
         } else {
             if (aCallback) {
                 if (!error) {
-                    aCallback(nil, [LGUtils writeErrorWithCode:kLGUtilsMissingServiceErrorCode
-                                                       message:kLGUtilsMissingServiceErrorMessage]);
+                    aCallback(nil, [LGUtils readErrorWithCode:kLGUtilsMissingServiceErrorCode
+                                                      message:kLGUtilsMissingServiceErrorMessage]);
                 } else {
                     aCallback(nil, error);
                 }
             }
+            LGLogError(@"Missing provided service : %@ in peripheral", aService);
+        }
+    }];
+}
+
++ (void)discoverCharactUUID:(NSString *)aCharacteristic
+                serviceUUID:(NSString *)aService
+            readyPeripheral:(LGPeripheral *)aPeripheral
+                 completion:(LGUtilsDiscoverCharacterisitcCallback)aCallback
+{
+    [aPeripheral discoverServices:@[[CBUUID UUIDWithString:aService]] completion:^(NSArray *services, NSError *error) {
+        if (services.count && !error) {
+            LGService *service = [self findServiceInList:services
+                                                  byUUID:aService];
+            [service discoverCharacteristicsWithUUIDs:@[[CBUUID UUIDWithString:aCharacteristic]] completion:^(NSArray *characteristics, NSError *error) {
+                if (characteristics.count) {
+                    LGCharacteristic *characteristic = [self findCharacteristicInList:characteristics
+                                                                               byUUID:aCharacteristic];
+                    if (aCallback) {
+                        aCallback(characteristic, nil);
+                    }
+                } else {
+                    if (aCallback) {
+                        if (!error) {
+                            aCallback(nil, [LGUtils discoverErrorWithCode:kLGUtilsMissingCharacteristicErrorCode
+                                                                  message:kLGUtilsMissingCharacteristicErrorMessage]);
+                        } else {
+                            aCallback(nil, error);
+                        }
+                    }
+                }
+            }];
+        } else {
+            if (aCallback) {
+                if (!error) {
+                    aCallback(nil, [LGUtils discoverErrorWithCode:kLGUtilsMissingServiceErrorCode
+                                                          message:kLGUtilsMissingServiceErrorMessage]);
+                } else {
+                    aCallback(nil, error);
+                }
+            }
+            LGLogError(@"Missing provided service : %@ in peripheral", aService);
         }
     }];
 }
@@ -210,7 +288,7 @@ NSString * const kLGUtilsMissingCharacteristicErrorMessage = @"Provided characte
  * @return Found service, nil if no one found
  */
 + (LGService *)findServiceInList:(NSArray *)services
-                                 byUUID:(NSString *)anID
+                          byUUID:(NSString *)anID
 {
     for (LGService *service in services) {
         if ([[service.UUIDString lowercaseString] isEqualToString:[anID lowercaseString]]) {
@@ -231,6 +309,18 @@ NSString * const kLGUtilsMissingCharacteristicErrorMessage = @"Provided characte
                            userInfo:@{kLGErrorMessageKey : aMsg}];
 }
 
++ (NSError *)readErrorWithCode:(NSInteger)aCode message:(NSString *)aMsg
+{
+    return [NSError errorWithDomain:kLGUtilsReadErrorDomain
+                               code:aCode
+                           userInfo:@{kLGErrorMessageKey : aMsg}];
+}
 
++ (NSError *)discoverErrorWithCode:(NSInteger)aCode message:(NSString *)aMsg
+{
+    return [NSError errorWithDomain:kLGUtilsDiscoverErrorDomain
+                               code:aCode
+                           userInfo:@{kLGErrorMessageKey : aMsg}];
+}
 
 @end
