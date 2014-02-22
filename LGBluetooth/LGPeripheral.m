@@ -59,6 +59,11 @@ NSString * const kConnectionMissingErrorMessage = @"BLE Device is not connected"
     return (self.cbPeripheral.state == CBPeripheralStateConnected);
 }
 
+- (NSString *)UUIDString
+{
+    return [self.cbPeripheral.identifier UUIDString];
+}
+
 /*----------------------------------------------------*/
 #pragma mark - Public Methods -
 /*----------------------------------------------------*/

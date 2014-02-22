@@ -88,6 +88,11 @@ typedef void(^LGPeripheralRSSIValueCallback)(NSNumber *RSSI, NSError *error);
 @property (strong, nonatomic, readonly) NSArray *services;
 
 /**
+ * UUID Identifier of peripheral
+ */
+@property (weak, nonatomic, readonly) NSString *UUIDString;
+
+/**
  * Indicates if latest disconect was made by watchdog
  * note : that watchdog works only by calling connectWithTimeout:completion:
  */
