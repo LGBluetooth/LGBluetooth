@@ -25,6 +25,12 @@
 
 /**
  * NSNotification which will be triggered by this identifier when
+ * Peripheral will be connected
+ */
+extern NSString * const kLGPeripheralDidConnect;
+
+/**
+ * NSNotification which will be triggered by this identifier when
  * a connected peripheral will be disconnected from us.
  * NOTE : Notification will be posted only if there is no an active handler (disconnect completion)
  *
