@@ -27,7 +27,7 @@
 typedef void (^LGCentralManagerDiscoverPeripheralsCallback) (NSArray *peripherals);
 
 /**
- * Wrapper class which implments common central role 
+ * Wrapper class which implments common central role
  * over Core Bluetooth's CBCentralManager instance
  */
 @interface LGCentralManager : NSObject
@@ -79,7 +79,7 @@ typedef void (^LGCentralManagerDiscoverPeripheralsCallback) (NSArray *peripheral
  * and fills the - NSArray *peripherals.
  * Scan will be stoped after input interaval.
  * @param aScanInterval interval by which scan will be stoped
- * @param aCallback completion block will be called after 
+ * @param aCallback completion block will be called after
  * <i>aScanInterval</i> with nearby peripherals
  */
 - (void)scanForPeripheralsByInterval:(NSUInteger)aScanInterval
@@ -109,7 +109,7 @@ typedef void (^LGCentralManagerDiscoverPeripheralsCallback) (NSArray *peripheral
 
 /**
  * Returns a list of known peripherals by their identifiers.
- * @param identifiers A list of peripheral identifiers (represented by NSUUID objects) 
+ * @param identifiers A list of peripheral identifiers (represented by NSUUID objects)
  * from which LGperipheral objects can be retrieved.
  * @return A list of peripherals that the central manager is able to match to the provided identifiers.
  */
@@ -117,7 +117,7 @@ typedef void (^LGCentralManagerDiscoverPeripheralsCallback) (NSArray *peripheral
 
 /**
  * Returns a list of the peripherals (containing any of the specified services) currently connected to the system.
- * The list of connected peripherals can include those that are connected by other apps 
+ * The list of connected peripherals can include those that are connected by other apps
  * and that will need to be connected locally using the connectPeripheral:options: method before they can be used.
  * @param serviceUUIDs A list of service UUIDs (represented by CBUUID objects).
  * @return A list of the LGPeripherals that are currently connected to

@@ -110,7 +110,7 @@
 - (instancetype)initWithService:(CBService *)aService
 {
     if (self = [super init]) {
-        _cbService      = aService;
+        _cbService = aService;
     }
     return self;
 }

@@ -89,7 +89,7 @@
 {
     self.scanning = NO;
 	[self.manager stopScan];
-
+    
     [NSObject cancelPreviousPerformRequestsWithTarget:self
                                              selector:@selector(stopScanForPeripherals)
                                                object:nil];
