@@ -1,9 +1,9 @@
 Pod::Spec.new do |s|
   s.name         = "LGBluetooth"
-  s.version      = "1.1.0"
+  s.version      = "1.1.1"
   s.summary      = "Simple, block-based, lightweight library over CoreBluetooth."
-  s.platform     = :ios, '7.0'
-  s.source       = { :git => "https://github.com/DavidSahakyan/LGBluetooth.git", :tag => "v1.1.0" }
+  s.platform     = :ios, '7.0', :osx
+  s.source       = { :git => "https://github.com/SocialObjects-Software/LGBluetooth.git", :tag => "v1.1.1" }
   s.description  = <<-DESC
                      As we know CoreBluetooth is very hard to use - The methods of objects in Core bluetooth are messy
 
@@ -13,7 +13,7 @@ This messy code makes CoreBluetooth development really painfull. For example if 
 
 Don't worry, now you can forgot about that hell - LGBluetooth uses blocks for callbacks, you can start using modern code and hierarchical calls.
                     DESC
-  s.homepage     = "davidsahakyan.github.io/LGBluetooth"
+  s.homepage     = "socialobjects-software.github.io/LGBluetooth"
   s.license      = 'MIT'
   s.author       = { "David Sahakyan" => "loggerdev@gmail.com" }
   s.source_files = 'LGBluetooth/*'
