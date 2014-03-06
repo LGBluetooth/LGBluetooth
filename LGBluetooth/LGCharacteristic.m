@@ -23,7 +23,11 @@
 #import "LGCharacteristic.h"
 
 #import "CBUUID+StringExtraction.h"
+#if TARGET_OS_IPHONE
 #import <CoreBluetooth/CoreBluetooth.h>
+#elif TARGET_OS_MAC
+#import <IOBluetooth/IOBluetooth.h>
+#endif
 #import "LGUtils.h"
 
 @interface LGCharacteristic ()

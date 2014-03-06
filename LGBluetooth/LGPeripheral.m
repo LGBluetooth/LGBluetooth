@@ -22,7 +22,11 @@
 
 #import "LGPeripheral.h"
 
+#if TARGET_OS_IPHONE
 #import <CoreBluetooth/CoreBluetooth.h>
+#elif TARGET_OS_MAC
+#import <IOBluetooth/IOBluetooth.h>
+#endif
 #import "LGCentralManager.h"
 #import "LGUtils.h"
 
