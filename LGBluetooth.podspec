@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "LGBluetooth"
-  s.version      = "1.1.1"
+  s.version      = "1.1.2"
   s.summary      = "Simple, block-based, lightweight library over CoreBluetooth."
   s.platform     = :ios, :osx
   s.ios.deployment_target = '7.0'
