@@ -146,7 +146,7 @@ Don't worry, now you can forgot about that hell - LGBluetooth uses blocks for ca
 #### Podfile
 
 ```ruby
-pod "LGBluetooth", "~> 1.1.1"
+pod "LGBluetooth", "~> 1.1.2"
 ```
 
 <h2>LICENSE</h2>
