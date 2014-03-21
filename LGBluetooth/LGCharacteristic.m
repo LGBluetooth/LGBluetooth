@@ -38,6 +38,8 @@
 
 @property (strong, nonatomic) NSMutableArray *writeOperationStack;
 
+@property (strong, nonatomic) LGCharacteristicReadCallback updateCallback;
+
 @end
 
 @implementation LGCharacteristic
@@ -82,9 +84,19 @@
 - (void)setNotifyValue:(BOOL)notifyValue
             completion:(LGCharacteristicNotifyCallback)aCallback
 {
+    [self setNotifyValue:notifyValue completion:aCallback onUpdate:nil];
+}
+
+- (void)setNotifyValue:(BOOL)notifyValue
+            completion:(LGCharacteristicNotifyCallback)aCallback
+              onUpdate:(LGCharacteristicReadCallback)uCallback
+{
     if (!aCallback) {
         aCallback = ^(NSError *error){};
     }
+    
+    self.updateCallback = uCallback;
+    
     [self push:aCallback toArray:self.notifyOperationStack];
     
     [self.cbCharacteristic.service.peripheral setNotifyValue:notifyValue
@@ -157,6 +169,10 @@
 {
     LGLog(@"Characteristic - %@ value - %s error - %@",
           self.cbCharacteristic.UUID, [aValue bytes], anError);
+    
+    if (self.updateCallback) {
+        self.updateCallback(aValue, anError);
+    }
     
     LGCharacteristicReadCallback callback = [self popFromArray:self.readOperationStack];
     if (callback) {
