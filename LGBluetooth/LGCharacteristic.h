@@ -48,6 +48,17 @@ typedef void (^LGCharacteristicWriteCallback) (NSError *error);
             completion:(LGCharacteristicNotifyCallback)aCallback;
 
 /**
+ * Enables or disables notifications/indications for the characteristic
+ * value of characteristic.
+ * @param notifyValue Enable/Disable notifications
+ * @param aCallback Will be called after successfull/failure ble-operation
+ * @param uCallback Will be called after every new successful update
+ */
+- (void)setNotifyValue:(BOOL)notifyValue
+            completion:(LGCharacteristicNotifyCallback)aCallback
+              onUpdate:(LGCharacteristicReadCallback)uCallback;
+
+/**
  * Writes input data to characteristic
  * @param data NSData object representing bytes that needs to be written
  * @param aCallback Will be called after successfull/failure ble-operation
