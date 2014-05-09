@@ -253,6 +253,13 @@
             lgPeripheral.RSSI = (lgPeripheral.RSSI + [RSSI integerValue]) / 2;
         }
         lgPeripheral.advertisingData = advertisementData;
+        
+        if ([self.scannedPeripherals count] >= self.peripheralsCountToStop) {
+            [NSObject cancelPreviousPerformRequestsWithTarget:self
+                                                     selector:@selector(stopScanForPeripherals)
+                                                       object:nil];
+            [self stopScanForPeripherals];
+        }
     });
 }
 
@@ -280,6 +287,7 @@ static LGCentralManager *sharedInstance = nil;
         _centralQueue = dispatch_queue_create("com.LGBluetooth.LGCentralQueue", DISPATCH_QUEUE_SERIAL);
         _manager      = [[CBCentralManager alloc] initWithDelegate:self queue:self.centralQueue];
         _scannedPeripherals = [NSMutableArray new];
+        _peripheralsCountToStop = NSUIntegerMax;
 	}
 	return self;
 }
