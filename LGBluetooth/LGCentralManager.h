@@ -44,6 +44,13 @@ typedef void (^LGCentralManagerDiscoverPeripheralsCallback) (NSArray *peripheral
 @property (assign, nonatomic, readonly, getter = isCentralReady) BOOL centralReady;
 
 /**
+ * Threshould to stop scanning for peripherals.
+ * When the number of discovered peripherals exceeds this value, scanning will be
+ * stopped even before the scan-interval.
+ */
+@property (assign, nonatomic) NSUInteger peripheralsCountToStop;
+
+/**
  * Human readable property that indicates why central manager is not ready
  */
 @property (weak, nonatomic, readonly) NSString *centralNotReadyReason;
