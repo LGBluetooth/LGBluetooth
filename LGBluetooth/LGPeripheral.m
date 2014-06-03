@@ -251,10 +251,11 @@ NSString * const kConnectionMissingErrorMessage = @"BLE Device is not connected"
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic
              error:(NSError *)error
 {
+    NSData *value = [characteristic.value copy];
     dispatch_async(dispatch_get_main_queue(), ^{
         [[[self wrapperByService:characteristic.service]
           wrapperByCharacteristic:characteristic]
-         handleReadValue:characteristic.value error:error];
+         handleReadValue:value error:error];
     });
 }
 
