@@ -228,7 +228,9 @@
                  error:(NSError *)error
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [[self wrapperByPeripheral:peripheral] handleDisconnectWithError:error];
+        LGPeripheral *lgPeripheral = [self wrapperByPeripheral:peripheral];
+        [lgPeripheral handleDisconnectWithError:error];
+        [self.scannedPeripherals removeObject:lgPeripheral];
     });
 }
 
