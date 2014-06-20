@@ -99,9 +99,11 @@
 - (void)handleDiscoveredCharacteristics:(NSArray *)aCharacteristics error:(NSError *)aError
 {
     [self updateCharacteristicWrappers];
+#if LG_ENABLE_BLE_LOGGING != 0
     for (LGCharacteristic *aChar in self.characteristics) {
         LGLog(@"Characteristic discovered - %@", aChar.cbCharacteristic.UUID);
     }
+#endif
     if (self.discoverCharBlock) {
         self.discoverCharBlock(self.characteristics, aError);
     }
