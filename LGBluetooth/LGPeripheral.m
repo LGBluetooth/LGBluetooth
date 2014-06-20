@@ -78,6 +78,19 @@ NSString * const kConnectionMissingErrorMessage = @"BLE Device is not connected"
     return [self.cbPeripheral name];
 }
 
+
+/*----------------------------------------------------*/
+#pragma mark - Overide Methods -
+/*----------------------------------------------------*/
+
+- (NSString *)description
+{
+    NSString *org = [super description];
+    
+    return [org stringByAppendingFormat:@" UUIDString: %@", self.UUIDString];
+}
+
+
 /*----------------------------------------------------*/
 #pragma mark - Public Methods -
 /*----------------------------------------------------*/
@@ -228,9 +241,12 @@ NSString * const kConnectionMissingErrorMessage = @"BLE Device is not connected"
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         [self updateServiceWrappers];
+
+#if LG_ENABLE_BLE_LOGGING != 0
         for (LGService *aService in self.services) {
             LGLog(@"Service discovered - %@", aService.cbService.UUID);
         }
+#endif
         
         if (self.discoverServicesBlock) {
             self.discoverServicesBlock(self.services, error);
