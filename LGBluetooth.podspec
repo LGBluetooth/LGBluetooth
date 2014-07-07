@@ -15,7 +15,7 @@ This messy code makes CoreBluetooth development really painfull. For example if 
 
 Don't worry, now you can forgot about that hell - LGBluetooth uses blocks for callbacks, you can start using modern code and hierarchical calls.
                     DESC
-  s.homepage       = "socialobjects-software.github.io/LGBluetooth"
+  s.homepage       = "http://socialobjects-software.github.io/LGBluetooth/"
   s.license        = 'MIT'
   s.author         = { "David Sahakyan" => "loggerdev@gmail.com" }
   s.source_files   = 'LGBluetooth/*'
