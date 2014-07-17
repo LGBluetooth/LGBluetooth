@@ -89,6 +89,11 @@ typedef void(^LGPeripheralRSSIValueCallback)(NSNumber *RSSI, NSError *error);
 @property (strong, nonatomic, readonly) CBPeripheral *cbPeripheral;
 
 /**
+ * Flag to indicate discovering services or not
+ */
+@property (assign, nonatomic, readonly, getter = isDiscoveringServices) BOOL discoveringServices;
+
+/**
  * Available services for this service,
  * will be updated after calling discoverServicesWithCompletion:
  */

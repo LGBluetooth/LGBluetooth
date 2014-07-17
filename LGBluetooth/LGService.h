@@ -45,6 +45,11 @@ typedef void(^LGServiceDiscoverCharacterisitcsCallback)(NSArray *characteristics
 @property (weak, nonatomic, readonly) NSString *UUIDString;
 
 /**
+ * Flag to indicate discovering characteristics or not
+ */
+@property (assign, nonatomic, readonly, getter = isDiscoveringCharacteristics) BOOL discoveringCharacteristics;
+
+/**
  * Available characteristics for this service, 
  * will be updated after discoverCharacteristicsWithCompletion: call
  */
