@@ -62,6 +62,7 @@
                               completion:(LGServiceDiscoverCharacterisitcsCallback)aCallback
 {
     self.discoverCharBlock = aCallback;
+    _discoveringCharacteristics = YES;
     [self.cbService.peripheral discoverCharacteristics:uuids
                                             forService:self.cbService];
 }
@@ -98,6 +99,7 @@
 
 - (void)handleDiscoveredCharacteristics:(NSArray *)aCharacteristics error:(NSError *)aError
 {
+    _discoveringCharacteristics = NO;
     [self updateCharacteristicWrappers];
 #if LG_ENABLE_BLE_LOGGING != 0
     for (LGCharacteristic *aChar in self.characteristics) {
