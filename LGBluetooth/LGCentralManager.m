@@ -52,6 +52,11 @@
  */
 @property (copy, nonatomic) LGCentralManagerDiscoverPeripheralsCallback scanBlock;
 
+/**
+ * CBCentralManager's state updated by centralManagerDidUpdateState:
+ */
+@property(nonatomic) CBCentralManagerState cbCentralManagerState;
+
 @end
 
 @implementation LGCentralManager
@@ -78,6 +83,20 @@
         return a.RSSI < b.RSSI;
     }];
     return sortedArray;
+}
+
+/*----------------------------------------------------*/
+#pragma mark - KVO -
+/*----------------------------------------------------*/
+
++ (NSSet *)keyPathsForValuesAffectingCentralReady
+{
+    return [NSSet setWithObject:@"cbCentralManagerState"];
+}
+
++ (NSSet *)keyPathsForValuesAffectingCentralNotReadyReason
+{
+    return [NSSet setWithObject:@"cbCentralManagerState"];
 }
 
 /*----------------------------------------------------*/
@@ -173,9 +192,6 @@
 		default:
 			break;
 	}
-    if (message) {
-        LGLogError(@"%@", message);
-    }
 	return message;
 }
 
@@ -236,9 +252,13 @@
 
 - (void)centralManagerDidUpdateState:(CBCentralManager *)central
 {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self stateMessage];
-    });
+    self.cbCentralManagerState = central.state;
+    NSString *message = [self stateMessage];
+    if (message) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            LGLogError(@"%@", message);
+        });
+    }
 }
 
 - (void)centralManager:(CBCentralManager *)central
@@ -288,6 +308,7 @@ static LGCentralManager *sharedInstance = nil;
 	if (self) {
         _centralQueue = dispatch_queue_create("com.LGBluetooth.LGCentralQueue", DISPATCH_QUEUE_SERIAL);
         _manager      = [[CBCentralManager alloc] initWithDelegate:self queue:self.centralQueue];
+        _cbCentralManagerState = _manager.state;
         _scannedPeripherals = [NSMutableArray new];
         _peripheralsCountToStop = NSUIntegerMax;
 	}
