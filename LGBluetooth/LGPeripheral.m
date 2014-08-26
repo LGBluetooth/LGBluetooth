@@ -99,7 +99,7 @@ NSString * const kConnectionMissingErrorMessage = @"BLE Device is not connected"
 {
     _watchDogRaised = NO;
     self.connectionBlock = aCallback;
-    [[LGCentralManager sharedInstance].manager connectPeripheral:self.cbPeripheral
+    [self.manager.manager connectPeripheral:self.cbPeripheral
                                                          options:nil];
 }
 
@@ -115,7 +115,7 @@ NSString * const kConnectionMissingErrorMessage = @"BLE Device is not connected"
 - (void)disconnectWithCompletion:(LGPeripheralConnectionCallback)aCallback
 {
     self.disconnectBlock = aCallback;
-    [[LGCentralManager sharedInstance].manager cancelPeripheralConnection:self.cbPeripheral];
+    [self.manager.manager cancelPeripheralConnection:self.cbPeripheral];
 }
 
 - (void)discoverServicesWithCompletion:(LGPeripheralDiscoverServicesCallback)aCallback
@@ -311,11 +311,12 @@ NSString * const kConnectionMissingErrorMessage = @"BLE Device is not connected"
 #pragma mark - Lifecycle -
 /*----------------------------------------------------*/
 
-- (instancetype)initWithPeripheral:(CBPeripheral *)aPeripheral
+- (instancetype)initWithPeripheral:(CBPeripheral *)aPeripheral manager:(LGCentralManager *)manager
 {
     if (self = [super init]) {
         _cbPeripheral = aPeripheral;
         _cbPeripheral.delegate = self;
+        _manager = manager;
     }
     return self;
 }

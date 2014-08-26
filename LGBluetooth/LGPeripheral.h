@@ -21,6 +21,7 @@
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 @class CBPeripheral;
+@class LGCentralManager;
 
 #pragma mark - Notification identifiers -
 
@@ -87,6 +88,11 @@ typedef void(^LGPeripheralRSSIValueCallback)(NSNumber *RSSI, NSError *error);
  * Core Bluetooth's CBPeripheral instance
  */
 @property (strong, nonatomic, readonly) CBPeripheral *cbPeripheral;
+
+/**
+ * LGCentralManager's instance used to connect to peripherals
+ */
+@property (weak, nonatomic, readonly) LGCentralManager *manager;
 
 /**
  * Flag to indicate discovering services or not
@@ -181,6 +187,6 @@ typedef void(^LGPeripheralRSSIValueCallback)(NSNumber *RSSI, NSError *error);
 /**
  * @return Wrapper object over Core Bluetooth's CBPeripheral
  */
-- (instancetype)initWithPeripheral:(CBPeripheral *)aPeripheral;
+- (instancetype)initWithPeripheral:(CBPeripheral *)aPeripheral manager:(LGCentralManager *)manager;
 
 @end
