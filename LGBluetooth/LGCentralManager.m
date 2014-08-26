@@ -205,7 +205,7 @@
         }
     }
     if (!wrapper) {
-        wrapper = [[LGPeripheral alloc] initWithPeripheral:aPeripheral];
+        wrapper = [[LGPeripheral alloc] initWithPeripheral:aPeripheral manager:self];
         [self.scannedPeripherals addObject:wrapper];
     }
     return wrapper;
