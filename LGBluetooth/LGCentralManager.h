@@ -39,7 +39,7 @@ typedef void (^LGCentralManagerDiscoverPeripheralsCallback) (NSArray *peripheral
 @property (nonatomic, getter = isScanning) BOOL scanning;
 
 /**
- * Indicates if central manager is ready for core bluetooth tasks
+ * Indicates if central manager is ready for core bluetooth tasks. KVO observable.
  */
 @property (assign, nonatomic, readonly, getter = isCentralReady) BOOL centralReady;
 
@@ -51,7 +51,7 @@ typedef void (^LGCentralManagerDiscoverPeripheralsCallback) (NSArray *peripheral
 @property (assign, nonatomic) NSUInteger peripheralsCountToStop;
 
 /**
- * Human readable property that indicates why central manager is not ready
+ * Human readable property that indicates why central manager is not ready. KVO observable.
  */
 @property (weak, nonatomic, readonly) NSString *centralNotReadyReason;
 
