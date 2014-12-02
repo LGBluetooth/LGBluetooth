@@ -66,6 +66,13 @@ typedef void (^LGCentralManagerDiscoverPeripheralsCallback) (NSArray *peripheral
 @property (strong, nonatomic, readonly) CBCentralManager *manager;
 
 /**
+ * KVO for centralReady and centralNotReadyReason
+ */
++ (NSSet *)keyPathsForValuesAffectingCentralReady;
+
++ (NSSet *)keyPathsForValuesAffectingCentralNotReadyReason;
+
+/**
  * Scans for nearby peripherals
  * and fills the - NSArray *peripherals
  */
