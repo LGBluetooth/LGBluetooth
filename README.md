@@ -14,7 +14,7 @@ Simple, block-based, lightweight library over CoreBluetooth.
 <h2>Usage</h2>
 
 For example we have a peripheral which has "5ec0" service, with 3 characteristics
-<img src="https://raw.github.com/SocialObjects-Software/LGBluetooth/master/Screenshots/1.PNG" width="320" height="480"><br>
+<img src="https://raw.github.com/l0gg3r/LGBluetooth/master/Screenshots/1.PNG" width="320" height="480"><br>
 
 * "cef9" characteristic is writable
 * "f045" characteristic is readable
@@ -71,7 +71,7 @@ For example we have a peripheral which has "5ec0" service, with 3 characteristic
 
 After running code we can see the result.
 
-<img src="https://raw.github.com/SocialObjects-Software/LGBluetooth/master/Screenshots/5.PNG" width="320" height="480"><br>
+<img src="https://raw.github.com/l0gg3r/LGBluetooth/master/Screenshots/5.PNG" width="320" height="480"><br>
 
 In this example I'm scanning peripherals for 4 seconds.
 After which I am passing first peripheral to test method.
