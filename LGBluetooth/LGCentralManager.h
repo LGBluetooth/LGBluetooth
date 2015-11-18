@@ -26,6 +26,7 @@
 @class CBCentralManager;
 
 typedef void (^LGCentralManagerDiscoverPeripheralsCallback) (NSArray *peripherals);
+typedef void (^LGCentralManagerDiscoverPeripheralsChangesCallback) (LGPeripheral *peripheral);
 
 /**
  * Wrapper class which implments common central role
@@ -72,11 +73,21 @@ typedef void (^LGCentralManagerDiscoverPeripheralsCallback) (NSArray *peripheral
 
 + (NSSet *)keyPathsForValuesAffectingCentralNotReadyReason;
 
+
+/**
+ * Scans for nearby peripherals
+ * and fills the - NSArray *peripherals
+ * @param aChangesCallback block which will be called on each peripheral update
+ */
+- (void)scanForPeripheralsWithChanges:(LGCentralManagerDiscoverPeripheralsChangesCallback)aChangesCallback;
+
+
 /**
  * Scans for nearby peripherals
  * and fills the - NSArray *peripherals
  */
 - (void)scanForPeripherals;
+
 
 /**
  * Makes scan for peripherals with criterias,
@@ -88,6 +99,19 @@ typedef void (^LGCentralManagerDiscoverPeripheralsCallback) (NSArray *peripheral
  */
 - (void)scanForPeripheralsWithServices:(NSArray *)serviceUUIDs
                                options:(NSDictionary *)options;
+
+/**
+ * Scans for nearby peripherals
+ * and fills the - NSArray *peripherals.
+ * Scan will be stoped after input interaval.
+ * @param aScanInterval interval by which scan will be stoped
+ * @param aChangesCallback block which will be called on each peripheral update
+ * @param aCallback completion block will be called after
+ * <i>aScanInterval</i> with nearby peripherals
+ */
+- (void)scanForPeripheralsByInterval:(NSUInteger)aScanInterval
+                             changes:(LGCentralManagerDiscoverPeripheralsChangesCallback)aChangesCallback
+                          completion:(LGCentralManagerDiscoverPeripheralsCallback)aCallback;
 
 /**
  * Scans for nearby peripherals
