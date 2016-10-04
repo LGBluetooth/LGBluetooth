@@ -226,7 +226,11 @@
         }
     }
     if (!wrapper) {
-        wrapper = [[LGPeripheral alloc] initWithPeripheral:aPeripheral manager:self];
+        if ([aPeripheral.delegate isKindOfClass:[LGPeripheral class]]) {
+            wrapper = (LGPeripheral *)aPeripheral.delegate;
+        } else {
+            wrapper = [[LGPeripheral alloc] initWithPeripheral:aPeripheral manager:self];
+        }
         [self.scannedPeripherals addObject:wrapper];
     }
     return wrapper;
