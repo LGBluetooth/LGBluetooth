@@ -271,8 +271,7 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         LGPeripheral *lgPeripheral = [self wrapperByPeripheral:peripheral];
         [lgPeripheral handleDisconnectWithError:error];
-        // Allow rapid connection/disconnection/connection as per: https://github.com/l0gg3r/LGBluetooth/issues/6
-        //[self.scannedPeripherals removeObject:lgPeripheral];
+        [self.scannedPeripherals removeObject:lgPeripheral];
     });
 }
 
