@@ -231,7 +231,9 @@
         } else {
             wrapper = [[LGPeripheral alloc] initWithPeripheral:aPeripheral manager:self];
         }
-        [self.scannedPeripherals addObject:wrapper];
+        if (wrapper) {
+            [self.scannedPeripherals addObject:wrapper];
+        }
     }
     return wrapper;
 }
@@ -277,7 +279,7 @@
 
 - (void)centralManagerDidUpdateState:(CBCentralManager *)central
 {
-    self.cbCentralManagerState = central.state;
+    self.cbCentralManagerState = (CBCentralManagerState)central.state;
     NSString *message = [self stateMessage];
     if (message) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -337,7 +339,7 @@ static LGCentralManager *sharedInstance = nil;
 	if (self) {
         _centralQueue = dispatch_queue_create("com.LGBluetooth.LGCentralQueue", DISPATCH_QUEUE_SERIAL);
         _manager      = [[CBCentralManager alloc] initWithDelegate:self queue:self.centralQueue];
-        _cbCentralManagerState = _manager.state;
+        _cbCentralManagerState = (CBCentralManagerState)_manager.state;
         _scannedPeripherals = [NSMutableArray new];
         _peripheralsCountToStop = NSUIntegerMax;
 	}
