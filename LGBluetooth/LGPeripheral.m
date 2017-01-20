@@ -327,4 +327,9 @@ NSString * const kConnectionMissingErrorMessage = @"BLE Device is not connected"
     return self;
 }
 
+- (void)dealloc
+{
+    _cbPeripheral.delegate = nil;
+}
+
 @end
