@@ -217,7 +217,10 @@ NSString * const kConnectionMissingErrorMessage = @"BLE Device is not connected"
 {
     NSMutableArray *updatedServices = [NSMutableArray new];
     for (CBService *service in self.cbPeripheral.services) {
-        [updatedServices addObject:[[LGService alloc] initWithService:service]];
+        LGService *lgService = [[LGService alloc] initWithService:service];
+        if (lgService) {
+            [updatedServices addObject:lgService];
+        }
     }
     _services = updatedServices;
 }
@@ -313,12 +316,20 @@ NSString * const kConnectionMissingErrorMessage = @"BLE Device is not connected"
 
 - (instancetype)initWithPeripheral:(CBPeripheral *)aPeripheral manager:(LGCentralManager *)manager
 {
+    if (![aPeripheral isKindOfClass:[CBPeripheral class]]) {
+        return nil;
+    }
     if (self = [super init]) {
         _cbPeripheral = aPeripheral;
         _cbPeripheral.delegate = self;
         _manager = manager;
     }
     return self;
+}
+
+- (void)dealloc
+{
+    _cbPeripheral.delegate = nil;
 }
 
 @end

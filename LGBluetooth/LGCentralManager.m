@@ -226,8 +226,14 @@
         }
     }
     if (!wrapper) {
-        wrapper = [[LGPeripheral alloc] initWithPeripheral:aPeripheral manager:self];
-        [self.scannedPeripherals addObject:wrapper];
+        if ([aPeripheral.delegate isKindOfClass:[LGPeripheral class]]) {
+            wrapper = (LGPeripheral *)aPeripheral.delegate;
+        } else {
+            wrapper = [[LGPeripheral alloc] initWithPeripheral:aPeripheral manager:self];
+        }
+        if (wrapper) {
+            [self.scannedPeripherals addObject:wrapper];
+        }
     }
     return wrapper;
 }
@@ -267,14 +273,13 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         LGPeripheral *lgPeripheral = [self wrapperByPeripheral:peripheral];
         [lgPeripheral handleDisconnectWithError:error];
-        // Allow rapid connection/disconnection/connection as per: https://github.com/l0gg3r/LGBluetooth/issues/6
-        //[self.scannedPeripherals removeObject:lgPeripheral];
+        [self.scannedPeripherals removeObject:lgPeripheral];
     });
 }
 
 - (void)centralManagerDidUpdateState:(CBCentralManager *)central
 {
-    self.cbCentralManagerState = central.state;
+    self.cbCentralManagerState = (CBCentralManagerState)central.state;
     NSString *message = [self stateMessage];
     if (message) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -334,7 +339,7 @@ static LGCentralManager *sharedInstance = nil;
 	if (self) {
         _centralQueue = dispatch_queue_create("com.LGBluetooth.LGCentralQueue", DISPATCH_QUEUE_SERIAL);
         _manager      = [[CBCentralManager alloc] initWithDelegate:self queue:self.centralQueue];
-        _cbCentralManagerState = _manager.state;
+        _cbCentralManagerState = (CBCentralManagerState)_manager.state;
         _scannedPeripherals = [NSMutableArray new];
         _peripheralsCountToStop = NSUIntegerMax;
 	}
