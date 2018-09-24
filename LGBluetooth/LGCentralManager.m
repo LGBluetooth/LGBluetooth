@@ -346,4 +346,9 @@ static LGCentralManager *sharedInstance = nil;
 	return self;
 }
 
++ (void) selfDestruct
+{
+    sharedInstance = nil;
+}
+
 @end
