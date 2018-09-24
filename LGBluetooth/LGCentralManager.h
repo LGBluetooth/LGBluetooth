@@ -169,4 +169,9 @@ typedef void (^LGCentralManagerDiscoverPeripheralsChangesCallback) (LGPeripheral
  */
 + (LGCentralManager *)sharedInstance;
 
+/**
+ * Clean Singleton instance of Central manager
+ */
++ (void) selfDestruct;
+
 @end
